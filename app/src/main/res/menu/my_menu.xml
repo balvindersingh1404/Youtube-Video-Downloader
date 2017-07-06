@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_new"
+        android:title="action_new"
+        app:showAsAction="always">
+
+        <menu>
+
+            <item
+                android:id="@+id/action_photo"
+                android:title="DOWNLOAD MP4"
+                app:showAsAction="always|withText" />
+            <item
+                android:id="@+id/action_video"
+                android:title="DOWNLOAD MP3"
+                app:showAsAction="always|withText" />
+
+        </menu>
+    </item>
+</menu>
