@@ -1,13 +1,16 @@
 package com.example.balvinder.downloader;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import okhttp3.internal.Platform;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,11 +67,26 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                1);
+
         downloadMP4 = (Button) findViewById(R.id.downloadMP4);
         downloadMP4.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+                String url=wv1.getUrl();
+                YOUTUBE_ID =url.substring(url.lastIndexOf("=")+1);
                 mExtractor.extract(YOUTUBE_ID).enqueue(mExtractionCallback);
                 new DownloadFileFromURL(wv1.getTitle(), "mp4").execute(file_url);
             }
@@ -78,6 +97,14 @@ public class MainActivity extends Activity {
 
             @Override
             public void onClick(View v) {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        1);
+                String url=wv1.getUrl();
+                YOUTUBE_ID =url.substring(url.lastIndexOf("=")+1);
                 mExtractor.extract(YOUTUBE_ID).enqueue(mExtractionCallback);
                 new DownloadFileFromURL(wv1.getTitle(), "mp3").execute(file_url);
             }
@@ -174,7 +201,9 @@ public class MainActivity extends Activity {
         @Override
         public void onPageFinished(WebView view, String url) {
             Log.i("CALLE ONPAGE FINISHED22", wv1.getUrl());       //called
-            YOUTUBE_ID = extractID();
+          //  YOUTUBE_ID = extractID();
+            Log.i("IDIDIDIDIDI ",YOUTUBE_ID);
+
             if (wv1.getUrl().contains("https://m.youtube.com/watch?v=")) {
                 downloadMP3.setVisibility(View.VISIBLE);
                 downloadMP4.setVisibility(View.VISIBLE);
